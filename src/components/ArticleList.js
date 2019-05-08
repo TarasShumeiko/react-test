@@ -23,6 +23,7 @@ class ArticleList extends Component {
     return (
       <ul>
         {articleElements}
+        <div>1</div>
       </ul>
     )
   }
