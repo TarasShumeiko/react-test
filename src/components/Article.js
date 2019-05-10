@@ -1,9 +1,12 @@
-import React, {Component} from 'react';
-import {findDOMNode} from 'react-dom';
+import React, {PureComponent} from 'react';
 import CommentList from './CommentList';
 import PropTypes from 'prop-types';
+import { CSSTransitionGroup } from 'react-transition-group';
+import './article.css';
+// import {Component} from 'react';
+// import {findDOMNode} from 'react-dom';
 
-class Article extends Component {
+class Article extends PureComponent {
   static propTypes = {
     article: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -12,17 +15,22 @@ class Article extends Component {
     }).isRequired
   };
 
-  componentWillReceiveProps(nextProps) {
-    console.log('---', 'updating', this.props.isOpen, nextProps.isOpen)
-  }
-
-  componentWillMount() {
-    console.log('---', 'mounting')
-  }
-
-  componentDidMount() {
-    console.log('---', 'mounted')
-  }
+  // Lifecycle methods
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('---', 'updating', this.props.isOpen, nextProps.isOpen)
+  // }
+  //
+  // componentWillMount() {
+  //   console.log('---', 'mounting')
+  // }
+  //
+  // componentDidMount() {
+  //   console.log('---', 'mounted')
+  // }
+  //
+  // shouldComponentUpdate(nextProps) {
+  //   return nextProps.isOpen !== this.props.isOpen
+  // }
 
   getBody = () => {
     const {article, isOpen} = this.props;
@@ -36,12 +44,11 @@ class Article extends Component {
   };
 
   setContainerRef = ref => {
-    this.container = ref;
-    console.log('---', ref)
+    // console.log('---', ref)
   };
 
   setCommentsRef = ref => {
-    console.log('---', findDOMNode(ref))
+    // console.log('---', findDOMNode(ref))
   };
 
   render() {
@@ -50,7 +57,14 @@ class Article extends Component {
       <div ref={this.setContainerRef}>
         <h3>{article.title}</h3>
         <button onClick={toggleOpen}>{isOpen ? "Close" : "Open"}</button>
-        {this.getBody()}
+        <CSSTransitionGroup
+          transitionName="article"
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={500}
+          component="div"
+        >
+          {this.getBody()}
+        </CSSTransitionGroup>
       </div>
     )
   }

@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "node-static": "^0.7.11",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-day-picker": "^7.3.0",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.0"
+    "react-scripts": "3.0.0",
+    "react-select": "^2.4.3",
+    "react-transition-group": "^1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
