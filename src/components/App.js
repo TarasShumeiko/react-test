@@ -2,33 +2,25 @@ import React, {Component} from 'react';
 import ArticleList from './ArticleList';
 import ArticleChart from './ArticlesChart';
 import UserForm from './UserForm';
-import Calendar from './Calendar';
+import Filters from './Filters';
+import Counter from './Counter';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
 
 class App extends Component {
   static propTypes = {
     articles: PropTypes.array.isRequired
   };
 
-  state ={
-    selection: null
-  };
-
-  changeSelection = selection => this.setState({selection});
-
   render() {
-    const options = this.props.articles.map(article => ({
-      label: article.title,
-      value: article.id
-    }));
+    const {articles} = this.props;
+
     return (
       <div>
+        <Counter/>
         <UserForm/>
-        <Select options={options} value={this.state.selection} onChange={this.changeSelection} isMulti/>
-        <Calendar/>
-        <ArticleList articles={this.props.articles}/>
-        <ArticleChart articles={this.props.articles}/>
+        <Filters articles={articles}/>
+        <ArticleList articles={articles}/>
+        <ArticleChart articles={articles}/>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Comment from './Comment';
-import AddComment from './AddComment';
+import CommentForm from './CommentForm';
 import toggleOpen from '../decorators/toggleOpen';
 import PropTypes from 'prop-types';
 
@@ -21,13 +21,13 @@ class CommentList extends Component {
         if (!comments.length) return (
           <div>
             <p>No comments yet</p>
-            <AddComment/>
+            <CommentForm/>
           </div>
         );
         return (
             <ul>
                 {comments.map(comment => <li key={comment.id}><Comment comment={comment}/></li>)}
-                <AddComment/>
+                <CommentForm/>
             </ul>
         );
     };
