@@ -2,6 +2,8 @@ import React, {PureComponent} from 'react';
 import CommentList from '../CommentList';
 import PropTypes from 'prop-types';
 import { CSSTransitionGroup } from 'react-transition-group';
+import {connect} from 'react-redux';
+import {deleteArticle} from '../../AC';
 import './style.css';
 // import {Component} from 'react';
 // import {findDOMNode} from 'react-dom';
@@ -51,12 +53,19 @@ class Article extends PureComponent {
     // console.log('---', findDOMNode(ref))
   };
 
+  handleDelete = () => {
+    const {deleteArticle, article} = this.props;
+    deleteArticle(article.id);
+    console.log("---", "deleting article", article.id);
+  };
+
   render() {
     const {article, isOpen, toggleOpen} = this.props;
     return (
       <div ref={this.setContainerRef}>
         <h3>{article.title}</h3>
         <button onClick={toggleOpen}>{isOpen ? "Close" : "Open"}</button>
+        <button onClick={this.handleDelete}>delete me</button>
         <CSSTransitionGroup
           transitionName="article"
           transitionEnterTimeout={300}
@@ -70,4 +79,4 @@ class Article extends PureComponent {
   }
 }
 
-export default Article;
+export default connect(null, {deleteArticle})(Article);

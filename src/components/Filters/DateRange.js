@@ -1,60 +1,32 @@
 import React from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
+import {connect} from 'react-redux';
+import {changeDateRange} from '../../AC';
 import 'react-day-picker/lib/style.css';
-import './style.css';
 
-class Calendar extends React.Component {
-  static defaultProps = {
-    numberOfMonths: 1,
+class DateRange extends React.Component {
+
+  handleDayClick = (day) => {
+    const {changeDateRange, range} = this.props;
+    changeDateRange(DateUtils.addDayToRange(day, range));
   };
-  constructor(props) {
-    super(props);
-    this.handleDayClick = this.handleDayClick.bind(this);
-    this.handleResetClick = this.handleResetClick.bind(this);
-    this.state = this.getInitialState();
-  }
-  getInitialState() {
-    return {
-      from: undefined,
-      to: undefined,
-    };
-  }
-  handleDayClick(day) {
-    const range = DateUtils.addDayToRange(day, this.state);
-    this.setState(range);
-  }
-  handleResetClick() {
-    this.setState(this.getInitialState());
-  }
+
   render() {
-    const { from, to } = this.state;
-    const modifiers = { start: from, end: to };
+    const {from, to} = this.props.range;
+    const selectedRange = from && to && `${from.toDateString()} - ${to.toDateString()}`;
     return (
-      <div className="RangeExample">
-        <p>
-          {!from && !to && 'Please select the first day.'}
-          {from && !to && 'Please select the last day.'}
-          {from &&
-          to &&
-          `Selected from ${from.toLocaleDateString()} to
-                ${to.toLocaleDateString()}`}{' '}
-          {from &&
-          to && (
-            <button className="link" onClick={this.handleResetClick}>
-              Reset
-            </button>
-          )}
-        </p>
+      <div className="date-range">
         <DayPicker
-          className="Selectable"
-          numberOfMonths={this.props.numberOfMonths}
-          selectedDays={[from, { from, to }]}
-          modifiers={modifiers}
+          ref="daypicker"
+          selectedDays={day => DateUtils.isDayInRange(day, {from, to})}
           onDayClick={this.handleDayClick}
         />
+        {selectedRange}
       </div>
     );
   }
 }
 
-export default Calendar;
+export default connect(state => ({
+  range: state.filters.dateRange
+}), {changeDateRange})(DateRange);

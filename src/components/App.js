@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import ArticleList from './ArticleList';
-import ArticleChart from './ArticlesChart';
 import UserForm from './UserForm';
 import Filters from './Filters';
 import Counter from './Counter';
-import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+// import PropTypes from 'prop-types';
 
 class App extends Component {
-  static propTypes = {
-    articles: PropTypes.array.isRequired
-  };
+  // static propTypes = {
+  //   articles: PropTypes.array
+  // };
 
   render() {
     const {articles} = this.props;
@@ -20,10 +20,11 @@ class App extends Component {
         <UserForm/>
         <Filters articles={articles}/>
         <ArticleList articles={articles}/>
-        <ArticleChart articles={articles}/>
       </div>
     );
   }
 }
 
-export default App;
+export default connect(state => ({
+  articles: state.filters
+}))(App);
